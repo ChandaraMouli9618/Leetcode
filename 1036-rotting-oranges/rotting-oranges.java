@@ -7,15 +7,24 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
         int minutes = 0;
+        int oranges=0;
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(grid[i][j] == 2) rottenOranges.add(new Integer[]{i, j});
+                if(grid[i][j] == 2){
+                     rottenOranges.add(new Integer[]{i, j});
+                     oranges++;
+                }
+                else if(grid[i][j]==1){
+                    oranges++;
+                }
             }
         }
 
         while(!rottenOranges.isEmpty()){
+            
             int size = rottenOranges.size();
             for(int j = 0; j < size; j++){
+                oranges--;
                 Integer[] currNode = rottenOranges.poll();
                 int x = currNode[0];
                 int y = currNode[1];
@@ -35,12 +44,8 @@ class Solution {
         //     }
         //     System.out.println();
         // }
-
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(grid[i][j] == 1) return -1;
-            }
-        }
+        if(oranges!=0) return -1;
+       
 
         return minutes == 0 ? 0 : minutes-1;
     }
