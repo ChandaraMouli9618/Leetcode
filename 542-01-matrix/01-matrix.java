@@ -23,7 +23,6 @@ class Solution {
         int steps = 1;
         while(!queue.isEmpty()){
             int size = queue.size();
-            System.out.println(size);
             for(int i = 0; i < size; i++){
                 Integer[] coords = queue.poll();
                 for(int j = 0; j < 4; j++){
