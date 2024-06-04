@@ -26,7 +26,6 @@ class Solution {
             System.out.println(size);
             for(int i = 0; i < size; i++){
                 Integer[] coords = queue.poll();
-                System.out.println(Arrays.toString(coords));
                 for(int j = 0; j < 4; j++){
                     
                     int x = X[j] + coords[0];
@@ -46,7 +45,7 @@ class Solution {
     }
 
     boolean isValid(int x, int y, int m, int n, int steps, int[][] distances){
-        if(x < 0 || y < 0 || x >= m || y >= n || steps >= distances[x][y]) return false;
+        if(x < 0 || y < 0 || x >= m || y >= n || distances[x][y] != Integer.MAX_VALUE) return false;
         return true;
     }
     
