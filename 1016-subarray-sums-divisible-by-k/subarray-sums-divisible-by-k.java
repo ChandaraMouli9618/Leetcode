@@ -12,7 +12,7 @@ class Solution {
             rem = rem < 0 ? rem + k : rem;
             freq.put(rem, freq.getOrDefault(rem, -1)+1);
             res += freq.get(rem);
-            System.out.println(rem + " " + freq.get(rem));
+            // System.out.println(rem + " " + freq.get(rem));
         }
 
         return res;
