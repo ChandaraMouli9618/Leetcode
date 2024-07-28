@@ -1,19 +1,20 @@
 class Solution {
     public int rob(int[] nums) {
         int n= nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
+        int res = 0;
 
-        dp[0] = nums[0];
-        if(n == 1) return dp[0];
+        int a = nums[0];
+        if(n == 1) return a;
 
-        dp[1] = Math.max(nums[0], nums[1]);
-        if(n == 2) return dp[1];
+        int b = Math.max(nums[0], nums[1]);
+        if(n == 2) return b;
 
         for(int i = 2; i < n; i++){
-            dp[i] = Math.max(dp[i-1], dp[i-2]+nums[i]);
+            res = Math.max(b, a + nums[i]);
+            a = b;
+            b = res;
         }
 
-        return dp[n-1];
+        return res;
     }
 }
