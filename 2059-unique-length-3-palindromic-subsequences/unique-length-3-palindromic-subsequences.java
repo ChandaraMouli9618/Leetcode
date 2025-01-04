@@ -16,21 +16,16 @@ class Solution {
             if(range[charIndex][1] < i) range[charIndex][1] = i;
         }
 
+        int res = 0;
+
         for(int i = 1; i < s.length()-1; i++){
             int charIndex = s.charAt(i) - 'a';
             for(int j = 0; j < 26; j++){
                 if(dp[j][charIndex]) continue;
                 if(range[j][0] < i && range[j][1] > i){
                     dp[j][charIndex] = true;
+                    res++;
                 }
-            }
-        }
-
-        int res = 0;
-
-        for(int i = 0; i < dp.length; i++){
-            for(int j = 0; j < dp[0].length; j++){
-                if(dp[i][j]) res++;
             }
         }
 
