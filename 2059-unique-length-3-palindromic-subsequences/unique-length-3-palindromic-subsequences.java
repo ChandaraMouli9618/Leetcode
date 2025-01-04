@@ -19,6 +19,7 @@ class Solution {
         for(int i = 1; i < s.length()-1; i++){
             int charIndex = s.charAt(i) - 'a';
             for(int j = 0; j < 26; j++){
+                if(dp[j][charIndex]) continue;
                 if(range[j][0] < i && range[j][1] > i){
                     dp[j][charIndex] = true;
                 }
