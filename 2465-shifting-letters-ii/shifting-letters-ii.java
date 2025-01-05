@@ -1,29 +1,41 @@
 class Solution {
     public String shiftingLetters(String s, int[][] shifts) {
-        int len = s.length();
-        int[] resShifts = new int[len + 1];
-        Arrays.fill(resShifts, 0);
+ int len = s.length();
+        int[] resShifts = new int[len + 1];  // To store the accumulated shifts
 
-        for(int[] shift : shifts){
-            int direction = shift[2] == 1 ? 1 : -1;
+        // Apply the shifts to the resShifts array
+        for (int[] shift : shifts) {
+            int start = shift[0];
+            int end = shift[1];
+            int direction = shift[2];
 
-            resShifts[shift[0]] += direction;
-            resShifts[shift[1]+1] -= direction;
+            // Direction: 1 for forward, 0 for backward
+            int shiftValue = (direction == 1) ? 1 : -1;
+
+            // Update the start and end+1 for the difference array
+            resShifts[start] += shiftValue;
+            if (end + 1 < len) {
+                resShifts[end + 1] -= shiftValue;
+            }
         }
 
-        System.out.println(Arrays.toString(resShifts));
-
-        StringBuilder res = new StringBuilder("");
-        for(int i = 1; i <= len; i++){
-            resShifts[i] += resShifts[i-1];
+        // Accumulate the shifts
+        for (int i = 1; i <= len; i++) {
+            resShifts[i] += resShifts[i - 1];
         }
 
-        for(int i = 0; i < len; i++){
-            char ch = getResChar(s.charAt(i), resShifts[i]);
-            res.append(ch);
+        // Apply the accumulated shifts to the string
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            char ch = s.charAt(i);
+            int shift = resShifts[i];
+
+            // Shift the character and handle wrapping
+            char shiftedChar = getResChar(ch, shift);
+            result.append(shiftedChar);
         }
 
-        return res.toString();
+        return result.toString();
     }
 
     char getResChar(char ch, int shift){
