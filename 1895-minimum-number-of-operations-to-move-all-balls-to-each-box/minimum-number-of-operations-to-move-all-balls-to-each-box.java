@@ -1,8 +1,7 @@
 class Solution {
     public int[] minOperations(String boxes) {
         int n = boxes.length();
-        int[] leftMoves = new int[n];
-        int[] rightMoves = new int[n];
+        int[] res = new int[n];
 
         int ballCount = 0;
         int moves = 0;
@@ -10,7 +9,7 @@ class Solution {
         for(int i = 0; i < n; i++){
             moves += ballCount;
             if(boxes.charAt(i) == '1') ballCount++;
-            leftMoves[i] = moves;
+            res[i] = moves;
         }
         //System.out.println(Arrays.toString(leftMoves));
 
@@ -20,13 +19,7 @@ class Solution {
         for(int i = n - 1; i >= 0 ; i--){
             moves += ballCount;
             if(boxes.charAt(i) == '1') ballCount++;
-            rightMoves[i] = moves;
-        }
-        //System.out.println(Arrays.toString(rightMoves));
-
-        int[] res = new int[n];
-        for(int i = 0; i < n; i++){
-            res[i] = leftMoves[i] + rightMoves[i];
+            res[i] += moves;
         }
 
         return res;
