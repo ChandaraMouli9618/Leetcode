@@ -27,7 +27,6 @@ class Solution {
 
     int[] countCharFreq(String word) {
         int[] freq = new int[26];
-        Arrays.fill(freq, 0);
 
         for (char ch : word.toCharArray()) {
             freq[ch - 'a']++;
