@@ -1,73 +1,58 @@
 class Solution {
-
-    int[] X = new int[] { 1, -1, 0, 0 };
-    int[] Y = new int[] { 0, 0, 1, -1 };
-    int group = 2;
-    Map<Integer, Integer> map = new HashMap<>();
-
+    int[] X = new int[]{1, -1, 0, 0};
+    int[] Y = new int[]{0, 0, 1, -1};
     public int largestIsland(int[][] grid) {
+        Map<Integer, Integer> map = new HashMap<>();
         int n = grid.length;
-        int res = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    int size = dfs(i, j, n, grid);
-                    res = Math.max(res, size);
-                    map.put(group, size);
-                    replaceSize(i, j, group, n, grid);
+        int group = 2;
+        int maxIsland = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0 ; j < n; j++){
+                if(grid[i][j] == 1){
+                    int res = dfs(i, j, n, grid, group);
+                    maxIsland = Math.max(maxIsland, res);
+                    map.put(group, res);
                     group++;
-
                 }
             }
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 0) {
-                    int currSum = 0;
-                    Set<Integer> groups = new HashSet<>();
+        //for(int[] arr : grid) System.out.println(Arrays.toString(arr));
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0 ; j < n; j++){
+                if(grid[i][j] == 0){
+                    Set<Integer> groupSet = new HashSet<>();
+                    int currIslandSize = 0;
                     for(int k = 0; k < X.length; k++){
-                        if(i + X[k] < 0 || j + Y[k] < 0 || i + X[k] >= n || j + Y[k] >= n) continue;
-                        int currGroup = grid[i + X[k]][j + Y[k]];
+                        int adjX = i + X[k];
+                        int adjY = j + Y[k];
 
-                        if(!groups.contains(currGroup)){
-                            currSum += map.getOrDefault(currGroup, 0);
-                            groups.add(currGroup);
-                        }
+                        if(adjX < 0 || adjX >= n || adjY < 0 || adjY >= n) continue;
+
+                        int currGroup = grid[adjX][adjY];
+                        if(groupSet.contains(currGroup)) continue;
+
+                        currIslandSize += map.getOrDefault(currGroup, 0);
+                        groupSet.add(currGroup);
                     }
-                    res = Math.max(res, currSum + 1);
-                    System.out.println(i + ", " + j + "  - " + res);
+                    maxIsland = Math.max(maxIsland, currIslandSize + 1);
                 }
             }
         }
 
-        // for (int[] arr : grid) {
-        //     System.out.println(Arrays.toString(arr));
-        // }
-        return res;
+        return maxIsland;
     }
 
-    int dfs(int x, int y, int n, int[][] grid) {
-        if (x < 0 || y < 0 || x >= n || y >= n || grid[x][y] != 1)
-            return 0;
-
-        grid[x][y] = 0;
-        int currCount = 0;
-        for (int i = 0; i < X.length; i++) {
-            currCount += dfs(x + X[i], y + Y[i], n, grid);
+    int dfs(int x, int y, int n, int[][] grid, int group){
+        if(x < 0 || y < 0 || x >= n || y >= n || grid[x][y] != 1) return 0;
+        
+        grid[x][y] = group;
+        int currSize = 0;
+        for(int i = 0; i < X.length; i++){
+            currSize += dfs(x + X[i], y + Y[i], n, grid, group);
         }
-        grid[x][y] = -1;
 
-        return currCount + 1;
-    }
-
-    void replaceSize(int x, int y, int size, int n, int[][] grid) {
-        if (x < 0 || y < 0 || x >= n || y >= n || grid[x][y] != -1)
-            return;
-        grid[x][y] = size;
-
-        for (int i = 0; i < X.length; i++) {
-            replaceSize(x + X[i], y + Y[i], size, n, grid);
-        }
+        return currSize + 1;
     }
 }
