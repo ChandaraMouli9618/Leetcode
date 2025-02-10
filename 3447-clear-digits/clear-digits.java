@@ -5,11 +5,11 @@ class Solution {
             if(ch >= '0' && ch <= '9' && !charStack.isEmpty()) charStack.pop();
             else charStack.push(ch);
         }
-        String res = "";
+        StringBuffer res = new StringBuffer();
         while(!charStack.isEmpty()){
-            res = charStack.pop() + res;
+            res.append(charStack.pop());
         }
 
-        return res;
+        return res.reverse().toString();
     }
 }
