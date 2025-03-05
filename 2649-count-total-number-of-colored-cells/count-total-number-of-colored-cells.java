@@ -1,9 +1,10 @@
 class Solution {
     public long coloredCells(int n) {
         long ans = 1;
+        long max = n;
 
-        for(int i = 2; i <= n; i++){
-            ans += ( 2 * i + (i - 2) * 2);
+        if(--max > 0){
+            ans += (long)(max * (2 * 4 + (max - 1)*4))/2;
         }
 
         return ans;
