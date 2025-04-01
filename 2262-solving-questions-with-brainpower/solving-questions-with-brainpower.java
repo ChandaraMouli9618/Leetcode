@@ -1,18 +1,17 @@
 class Solution {
-    public long mostPoints(int[][] qs) {
-        int n = qs.length;
-        long[] dp = new long[n];
-        Arrays.fill(dp, -1);
-        return util(0, qs, dp, n);
-    }
+    public long mostPoints(int[][] q) {
+        int n = q.length;
+        long[] dp = new long[n+1];
 
-    long util(int pos, int[][] qs, long[] dp, int n){
-        if(pos >= n) return 0;
-        if(dp[pos] != -1) return dp[pos];
+        for(int i = n-1; i >= 0; i--){
+            int next = i + q[i][1] + 1;
 
-        long taken = util(pos + qs[pos][1] + 1, qs, dp, n) + qs[pos][0];
-        long notTaken = util(pos+1, qs, dp, n);
+            long taken = q[i][0] + (next > n ? 0 : dp[next]);
+            long notTaken = dp[i+1];
 
-        return dp[pos] = Math.max(taken, notTaken);
+            dp[i] = Math.max(taken, notTaken);
+        }
+
+        return dp[0];
     }
 }
